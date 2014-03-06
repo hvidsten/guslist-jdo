@@ -92,56 +92,70 @@ public class GusListView {
 		
 		makeSideBar(horizontalPanel);
 		
-		VerticalPanel postFormPanel = new VerticalPanel();
-		horizontalPanel.add(postFormPanel);
+		VerticalPanel dataListPanel = new VerticalPanel();
+		horizontalPanel.add(dataListPanel);
 		
-		// Name input
-		HorizontalPanel nameRow = new HorizontalPanel();
-		Label nameLabel = new Label("Name (First Last");
-		final TextBox nameTextbox = new TextBox();
-		nameRow.add(nameLabel);
-		nameRow.add(nameTextbox);
-		postFormPanel.add(nameRow);
+		FlowPanel flowPanel = new FlowPanel();
+		dataListPanel.add(flowPanel);
 		
-		// Title input
-		HorizontalPanel titleRow = new HorizontalPanel();
-		Label titleLabel = new Label("Title (e.g. car, bike, etc)");
-		final TextBox titleTextbox = new TextBox();
-		titleRow.add(titleLabel);
-		titleRow.add(titleTextbox);
-		postFormPanel.add(titleRow);
+		Label progTitlebar = new Label("GusList");
+		progTitlebar.addStyleName("appTitleBar");
+		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		flowPanel.add(progTitlebar);
 		
-		// Description input
-		HorizontalPanel descrRow = new HorizontalPanel();
-		Label descrLabel = new Label("Item Short description");
-		final TextArea descrText = new TextArea();
-		descrText.setCharacterWidth(40);
-		descrText.setVisibleLines(10);
-		descrRow.add(descrLabel);
-		descrRow.add(descrText);
-		postFormPanel.add(descrRow);
+		createPostAdForm(flowPanel);
+	}
+	private void createPostAdForm(FlowPanel flowPanel) {
 		
-		// Price input
-		HorizontalPanel priceRow = new HorizontalPanel();
+		// Name TextBox
+		HorizontalPanel namePanel = new HorizontalPanel();
+		Label nameLabel = new Label("Name (First Last)");
+		nameLabel.addStyleName("postLabel");
+		namePanel.add(nameLabel);
+		flowPanel.add(namePanel);
+		final TextBox nameTextBox = new TextBox();
+		flowPanel.add(nameTextBox);
+		
+		// Title TextBox
+		HorizontalPanel titlePanel = new HorizontalPanel();
+		Label titleLabel = new Label("Title of Your Post (e.g. car, bike, etc)");
+		titleLabel.addStyleName("postLabel");
+		titlePanel.add(titleLabel);
+		flowPanel.add(titlePanel);
+		final TextBox titleTextBox = new TextBox();
+		flowPanel.add(titleTextBox);
+		
+		// Description TextArea
+		HorizontalPanel descriptionPanel = new HorizontalPanel();
+		Label descriptionLabel = new Label("Item Description");
+		descriptionLabel.addStyleName("postLabel");
+		descriptionPanel.add(descriptionLabel);
+		flowPanel.add(descriptionPanel);
+		final TextArea descriptionTextArea = new TextArea();
+		flowPanel.add(descriptionTextArea);
+		
+		// Price TextBox
+		HorizontalPanel pricePanel = new HorizontalPanel();
 		Label priceLabel = new Label("Price ($)");
-		final TextBox priceTextbox = new TextBox();
-		priceTextbox.setVisibleLength(6);
-		priceRow.add(priceLabel);
-		priceRow.add(priceTextbox);
-		postFormPanel.add(priceRow);
+		priceLabel.addStyleName("postLabel");
+		pricePanel.add(priceLabel);
+		flowPanel.add(pricePanel);
+		final TextBox priceTextBox = new TextBox();
+		flowPanel.add(priceTextBox);
 		
-		// Submit button
+		// Submit Button
 		Button submitButton = new Button("Submit Ad");
 		submitButton.setStyleName("sideBarButton");
 		submitButton.setText("Submit Ad");
 		
+		// Submit Button Click Handler
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String name = nameTextbox.getText();
-				String title = titleTextbox.getText();
-				String descr = descrText.getText();
-				double price = Double.valueOf(priceTextbox.getText());
+				String name = nameTextBox.getText();
+				String title = titleTextBox.getText();
+				String descr = descriptionTextArea.getText();
+				double price = Double.parseDouble(priceTextBox.getText());
 				// Validate entries
 				if(name.length()>0 && title.length()>0 && price >=0.0){
 					PostData post = new PostData(title,descr,price,
@@ -153,7 +167,7 @@ public class GusListView {
 				}
 			}
 	      });
-		postFormPanel.add(submitButton);
+		flowPanel.add(submitButton);
 	}
 	
 	private void makePostTable(List<PostData> posts, FlowPanel flowPanel) {
