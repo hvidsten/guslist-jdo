@@ -30,6 +30,8 @@ public class GusList implements EntryPoint {
 	
 	public GusListView getView() {
 		return glView;
+		
+		
 	}
 	
 	public void viewAdDataFromServer(){
