@@ -11,4 +11,8 @@ public class Seller  implements Serializable{
 	public Seller(String string) {
 		name = string;
 	}
+	
+	public String getName() {
+		return name;
+	}
 }

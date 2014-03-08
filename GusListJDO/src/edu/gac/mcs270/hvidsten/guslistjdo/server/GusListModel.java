@@ -15,6 +15,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
 import edu.gac.mcs270.hvidsten.guslistjdo.shared.PostData;
+import edu.gac.mcs270.hvidsten.guslistjdo.shared.Seller;
 
 public class GusListModel {
 	static final PersistenceManagerFactory pmf = PMF.get();
@@ -29,5 +30,30 @@ public class GusListModel {
 	public static void storePost(PostData post) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.makePersistent(post);
+	}
+
+	public static List<PostData> getSearchedPostData(String searchString) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Query query = pm.newQuery(PostData.class);
+		List<PostData> posts = getPostData();
+		List<PostData> searchedPosts = new ArrayList();
+		for(PostData post : posts) {
+			if(post.getTitle().equals(searchString)) {
+				searchedPosts.add(post);
+			}
+		}
+		return new ArrayList<PostData>(searchedPosts);
+	}
+
+	public static void changePostData(PostData oldPost, PostData newPost) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Query query = pm.newQuery(PostData.class);
+		List<PostData> posts = (List<PostData>) query.execute();
+		for(PostData post : posts) {
+			if(post.equals(oldPost)) {
+				pm.deletePersistent(post);
+			}
+		}
+		pm.makePersistent(newPost);
 	}
 }

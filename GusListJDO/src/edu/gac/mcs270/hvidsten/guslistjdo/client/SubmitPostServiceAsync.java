@@ -7,4 +7,8 @@ import edu.gac.mcs270.hvidsten.guslistjdo.shared.PostData;
 public interface SubmitPostServiceAsync {
 	public void submitPostToServer(PostData post,
 			AsyncCallback<String> asyncCallback);
+
+	public void changePostToServer(PostData oldPost, PostData newPost,
+			AsyncCallback<String> callback);
+
 }

@@ -37,6 +37,13 @@ public class PostData implements Serializable {
 		seller = s;
 		buyer = b;
 	}
+	
+	public PostData(String t, String d, double p, Seller s){
+		title = t;
+		description = d;
+		price = p;
+		seller = s;
+	}
 
 	public String getTitle() {
 		return title;

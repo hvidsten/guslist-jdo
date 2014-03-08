@@ -15,4 +15,10 @@ public class SubmitPostServiceImpl extends
 		return "post submitted okay";
 	}
 
+	@Override
+	public String changePostToServer(PostData oldPost, PostData newPost) {
+		GusListModel.changePostData(oldPost, newPost);
+		return "post changed okay";
+	}
+
 }

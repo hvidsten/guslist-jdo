@@ -2,6 +2,7 @@ package edu.gac.mcs270.hvidsten.guslistjdo.client;
 
 import java.util.List;
 
+import edu.gac.mcs270.hvidsten.guslistjdo.server.GusListModel;
 import edu.gac.mcs270.hvidsten.guslistjdo.shared.PostData;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -30,8 +31,6 @@ public class GusList implements EntryPoint {
 	
 	public GusListView getView() {
 		return glView;
-		
-		
 	}
 	
 	public void viewAdDataFromServer(){
@@ -64,6 +63,31 @@ public class GusList implements EntryPoint {
 	}
 
 	public void handleTitleSearchRequest(String title) {
-		// Need to implement servlet communication
+		postDataService.getSearchedPostDataFromServer(title, 
+				new AsyncCallback<List<PostData>>() {
+					public void onFailure(Throwable caught) {
+						return;
+					}
+
+					@Override
+					public void onSuccess(List<PostData> searchedData) {
+						glView.viewPostData(searchedData);
+					}
+				});;
+	}
+
+
+	public void handleChangePost(PostData oldPost, PostData newPost) {
+		submitPostService.changePostToServer(oldPost, newPost,
+				new AsyncCallback<String>() {
+			public void onFailure(Throwable caught) {
+				return;
+			}
+			@Override
+			public void onSuccess(String result) {
+				glView.sendSuccessfulPostmessage();
+				
+			}
+		});
 	}
 }

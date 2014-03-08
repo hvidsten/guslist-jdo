@@ -13,4 +13,7 @@ public class Buyer  implements Serializable{
 		name = string;
 	}
 
+	public String getName() {
+		return name;
+	}
 }
