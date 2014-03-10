@@ -37,6 +37,9 @@ public class PostData implements Serializable {
 		description = d;
 		price = p;
 		seller = s;
+		//setSeller(new Seller(s.getName()));
+	    // give the person a new ContactProfiles reference so the update is detected
+	 //   p.setContactProfiles(new ContactProfiles(p.getContactProfiles().get()));
 		buyer = b;
 	}
 	
@@ -45,6 +48,7 @@ public class PostData implements Serializable {
 		description = d;
 		price = p;
 		seller = s;
+		//setSeller(new Seller(s.getName()));
 	}
 
 	public long getPostId(){
