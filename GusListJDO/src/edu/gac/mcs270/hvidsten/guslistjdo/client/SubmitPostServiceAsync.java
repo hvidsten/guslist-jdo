@@ -11,4 +11,5 @@ public interface SubmitPostServiceAsync {
 	public void changePostToServer(PostData oldPost, PostData newPost,
 			AsyncCallback<String> callback);
 
+	public void deletePostFromServer(PostData post, AsyncCallback<String> asyncCallback);
 }

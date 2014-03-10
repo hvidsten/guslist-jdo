@@ -272,7 +272,8 @@ public class GusListView {
 		deletePostButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				////////Andy this is where you need to start
+				
+				control.handleDeleteRequest(post);
 			}
 		});
 		
@@ -486,5 +487,9 @@ public class GusListView {
 	
 	public void sendSuccessfulPostmessage() {
 		Window.alert("Post was successfully stored.");
+	}
+	
+	public void sendSuccessfulDeletePostMessage() {
+		Window.alert("Post was successfully deleted.");
 	}
 }
