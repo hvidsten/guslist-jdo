@@ -45,6 +45,7 @@ public class PostData implements Serializable {
 		seller = s;
 	}
 
+	///////////////////////////////////////////////////////////////////////
 	public long getPostId(){
 		return this.id;
 	}
