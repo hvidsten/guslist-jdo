@@ -33,8 +33,6 @@ public class GusListModel {
 	}
 
 	public static List<PostData> getSearchedPostData(String searchString) {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Query query = pm.newQuery(PostData.class);
 		List<PostData> posts = getPostData();
 		List<PostData> searchedPosts = new ArrayList();
 		for(PostData post : posts) {
@@ -45,16 +43,16 @@ public class GusListModel {
 		return new ArrayList<PostData>(searchedPosts);
 	}
 
-	public static void changePostData(PostData oldPost, PostData newPost) {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Query query = pm.newQuery(PostData.class);
-		List<PostData> posts = (List<PostData>) query.execute();
+	public static void changePostData(long postId, PostData newPost) {
+		List<PostData> posts = getPostData();
 		for(PostData post : posts) {
-			if(post.equals(oldPost)) {
-				pm.deletePersistent(post);
+			if(post.getPostId() == postId) {
+				post.setTitle(newPost.getTitle());
+				post.setDescription(newPost.getDescription());
+				post.setPrice(newPost.getPrice());
+				post.setSeller(newPost.getSeller());
 			}
 		}
-		pm.makePersistent(newPost);
 	}
 
 	public static void deletePostData(PostData postToDelete){
@@ -62,6 +60,7 @@ public class GusListModel {
 		Query query = pm.newQuery(PostData.class);
 		List<PostData> posts = (List<PostData>) query.execute();
 		for(PostData post : posts) {
+			pm.deletePersistent(post);
 			if(post.getPostId() == postToDelete.getPostId()) {
 				pm.deletePersistent(post);
 			}

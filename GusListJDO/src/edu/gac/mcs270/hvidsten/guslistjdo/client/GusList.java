@@ -96,14 +96,14 @@ public class GusList implements EntryPoint {
 
 
 	public void handleChangePost(PostData oldPost, PostData newPost) {
-		submitPostService.changePostToServer(oldPost, newPost,
+		submitPostService.changePostToServer(oldPost.getPostId(), newPost,
 				new AsyncCallback<String>() {
 			public void onFailure(Throwable caught) {
 				return;
 			}
 			@Override
 			public void onSuccess(String result) {
-				glView.sendSuccessfulPostmessage();
+				glView.sendSuccessfulChangemessage();
 				viewAdDataFromServer();
 			}
 		});

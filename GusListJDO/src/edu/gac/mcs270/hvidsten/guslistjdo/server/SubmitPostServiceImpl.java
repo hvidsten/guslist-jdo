@@ -16,8 +16,8 @@ public class SubmitPostServiceImpl extends
 	}
 
 	@Override
-	public String changePostToServer(PostData oldPost, PostData newPost) {
-		GusListModel.changePostData(oldPost, newPost);
+	public String changePostToServer(long postId, PostData newPost) {
+		GusListModel.changePostData(postId, newPost);
 		return "post changed okay";
 	}
 

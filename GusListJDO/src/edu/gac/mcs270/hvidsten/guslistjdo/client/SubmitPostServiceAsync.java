@@ -8,7 +8,7 @@ public interface SubmitPostServiceAsync {
 	public void submitPostToServer(PostData post,
 			AsyncCallback<String> asyncCallback);
 
-	public void changePostToServer(PostData oldPost, PostData newPost,
+	void changePostToServer(long postId, PostData newPost,
 			AsyncCallback<String> callback);
 
 	public void deletePostFromServer(PostData post, AsyncCallback<String> asyncCallback);

@@ -159,11 +159,11 @@ public class GusListView {
 				// Validate entries
 				if(name.length()>0 && title.length()>0 && price >=0.0){
 					PostData post = new PostData(title,descr,price,
-							new Seller(name), null);
+							name);
 					control.handlePostSubmit(post);
 				}
 				else {
-					// Should send error message to user
+					Window.alert("Post must have every field filled");
 				}
 			}
 	      });
@@ -231,7 +231,7 @@ public class GusListView {
 		
 		// Name TextBox
 		HorizontalPanel namePanel = new HorizontalPanel();
-		Label nameLabel = new Label("Sold by: " );//+ post.getSeller().getName());
+		Label nameLabel = new Label("Sold by: " + post.getSeller());
 		nameLabel.addStyleName("postBody");
 		namePanel.add(nameLabel);
 		flowPanel.add(namePanel);
@@ -313,7 +313,7 @@ public class GusListView {
 		namePanel.add(nameLabel);
 		flowPanel.add(namePanel);
 		final TextBox nameTextBox = new TextBox();
-		nameTextBox.setText("");     //post.getSeller().getName());
+		nameTextBox.setText(post.getSeller());
 		flowPanel.add(nameTextBox);
 		
 		// Title TextBox
@@ -351,7 +351,7 @@ public class GusListView {
 		saveChangesButton.setStyleName("sideBarButton");
 		saveChangesButton.setText("Save Changes to Ad");
 		
-		// Submit Button Click Handler
+		// Save Changes Button Click Handler
 		saveChangesButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -361,14 +361,12 @@ public class GusListView {
 				double price = Double.parseDouble(priceTextBox.getText());
 				// Validate entries
 				if(name.length()>0 && title.length()>0 && price >=0.0){
-					PostData post = new PostData(title,descr,price,
-							new Seller(name), null);
-					control.handlePostSubmit(post);
+					PostData newPost = new PostData(title,descr,price,
+							name);
+					control.handleChangePost(post, newPost);
 				}
 				else {
-					PostData newPost = new PostData(title,descr,price,
-							new Seller(name), null);
-					control.handleChangePost(post, newPost);
+					Window.alert("Post must have every field filled");
 				}
 			}
 	      });
@@ -421,7 +419,6 @@ public class GusListView {
 		Button postAdButton = new Button("Post Ad");
 		postAdButton.setStyleName("sideBarButton");
 		postAdButton.setText("Post Ad");
-		//add a clickListener to the button
 		postAdButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -433,7 +430,6 @@ public class GusListView {
 		Button viewAdsButton = new Button("View Ads");
 		viewAdsButton.setStyleName("sideBarButton");
 		viewAdsButton.setText("View Ads");
-		//add a clickListener to the button
 		viewAdsButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -487,6 +483,10 @@ public class GusListView {
 	
 	public void sendSuccessfulPostmessage() {
 		Window.alert("Post was successfully stored.");
+	}
+	
+	public void sendSuccessfulChangemessage() {
+		Window.alert("Post was successfully changed.");
 	}
 	
 	public void sendSuccessfulDeletePostMessage() {
