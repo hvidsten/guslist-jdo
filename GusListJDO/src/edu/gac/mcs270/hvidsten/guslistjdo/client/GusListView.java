@@ -92,68 +92,82 @@ public class GusListView {
 		
 		makeSideBar(horizontalPanel);
 		
-		VerticalPanel postFormPanel = new VerticalPanel();
-		horizontalPanel.add(postFormPanel);
+		VerticalPanel dataListPanel = new VerticalPanel();
+		horizontalPanel.add(dataListPanel);
 		
-		// Name input
-		HorizontalPanel nameRow = new HorizontalPanel();
-		Label nameLabel = new Label("Name (First Last");
-		final TextBox nameTextbox = new TextBox();
-		nameRow.add(nameLabel);
-		nameRow.add(nameTextbox);
-		postFormPanel.add(nameRow);
+		FlowPanel flowPanel = new FlowPanel();
+		dataListPanel.add(flowPanel);
 		
-		// Title input
-		HorizontalPanel titleRow = new HorizontalPanel();
-		Label titleLabel = new Label("Title (e.g. car, bike, etc)");
-		final TextBox titleTextbox = new TextBox();
-		titleRow.add(titleLabel);
-		titleRow.add(titleTextbox);
-		postFormPanel.add(titleRow);
+		Label progTitlebar = new Label("GusList");
+		progTitlebar.addStyleName("appTitleBar");
+		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		flowPanel.add(progTitlebar);
 		
-		// Description input
-		HorizontalPanel descrRow = new HorizontalPanel();
-		Label descrLabel = new Label("Item Short description");
-		final TextArea descrText = new TextArea();
-		descrText.setCharacterWidth(40);
-		descrText.setVisibleLines(10);
-		descrRow.add(descrLabel);
-		descrRow.add(descrText);
-		postFormPanel.add(descrRow);
+		createPostAdForm(flowPanel);
+	}
+	private void createPostAdForm(FlowPanel flowPanel) {
 		
-		// Price input
-		HorizontalPanel priceRow = new HorizontalPanel();
+		// Name TextBox
+		HorizontalPanel namePanel = new HorizontalPanel();
+		Label nameLabel = new Label("Name (First Last)");
+		nameLabel.addStyleName("postLabel");
+		namePanel.add(nameLabel);
+		flowPanel.add(namePanel);
+		final TextBox nameTextBox = new TextBox();
+		flowPanel.add(nameTextBox);
+		
+		// Title TextBox
+		HorizontalPanel titlePanel = new HorizontalPanel();
+		Label titleLabel = new Label("Title of Your Post (e.g. car, bike, etc)");
+		titleLabel.addStyleName("postLabel");
+		titlePanel.add(titleLabel);
+		flowPanel.add(titlePanel);
+		final TextBox titleTextBox = new TextBox();
+		flowPanel.add(titleTextBox);
+		
+		// Description TextArea
+		HorizontalPanel descriptionPanel = new HorizontalPanel();
+		Label descriptionLabel = new Label("Item Description");
+		descriptionLabel.addStyleName("postLabel");
+		descriptionPanel.add(descriptionLabel);
+		flowPanel.add(descriptionPanel);
+		final TextArea descriptionTextArea = new TextArea();
+		flowPanel.add(descriptionTextArea);
+		
+		// Price TextBox
+		HorizontalPanel pricePanel = new HorizontalPanel();
 		Label priceLabel = new Label("Price ($)");
-		final TextBox priceTextbox = new TextBox();
-		priceTextbox.setVisibleLength(6);
-		priceRow.add(priceLabel);
-		priceRow.add(priceTextbox);
-		postFormPanel.add(priceRow);
+		priceLabel.addStyleName("postLabel");
+		pricePanel.add(priceLabel);
+		flowPanel.add(pricePanel);
+		final TextBox priceTextBox = new TextBox();
+		flowPanel.add(priceTextBox);
 		
-		// Submit button
+		// Submit Button
 		Button submitButton = new Button("Submit Ad");
 		submitButton.setStyleName("sideBarButton");
 		submitButton.setText("Submit Ad");
 		
+		// Submit Button Click Handler
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String name = nameTextbox.getText();
-				String title = titleTextbox.getText();
-				String descr = descrText.getText();
-				double price = Double.valueOf(priceTextbox.getText());
+				String name = nameTextBox.getText();
+				String title = titleTextBox.getText();
+				String descr = descriptionTextArea.getText();
+				double price = Double.parseDouble(priceTextBox.getText());
 				// Validate entries
 				if(name.length()>0 && title.length()>0 && price >=0.0){
 					PostData post = new PostData(title,descr,price,
-							new Seller(name), null);
+							name);
 					control.handlePostSubmit(post);
 				}
 				else {
-					// Should send error message to user
+					Window.alert("Post must have every field filled");
 				}
 			}
 	      });
-		postFormPanel.add(submitButton);
+		flowPanel.add(submitButton);
 	}
 	
 	private void makePostTable(List<PostData> posts, FlowPanel flowPanel) {
@@ -162,7 +176,7 @@ public class GusListView {
 		}
 	}
 
-	private HorizontalPanel makePostRow(PostData post) {
+	private HorizontalPanel makePostRow(final PostData post) {
 		HorizontalPanel row = new HorizontalPanel();
 		Label titleLabel = new Label(post.getTitle());
 		titleLabel.addStyleName("postLabel");
@@ -173,11 +187,10 @@ public class GusListView {
 		Button infoButton = new Button("More Info");
 		infoButton.addStyleName("postInfoButton");
 		infoButton.setText("More Info");
-		//add a clickListener to the button
 		infoButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				// To Do
+				viewPostData(post);
 			}
 	      });
 		row.add(titleLabel);
@@ -185,6 +198,179 @@ public class GusListView {
 		row.add(priceLabel);
 		row.add(infoButton);
 		return row;
+	}
+	
+	private void viewPostData(final PostData post) {
+		RootPanel rootPanel = RootPanel.get();
+		rootPanel.clear();
+		makeMenuBar(rootPanel);
+		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		rootPanel.add(horizontalPanel, 10, 79);
+		
+		makeSideBar(horizontalPanel);
+		
+		VerticalPanel dataListPanel = new VerticalPanel();
+		horizontalPanel.add(dataListPanel);
+		
+		FlowPanel flowPanel = new FlowPanel();
+		dataListPanel.add(flowPanel);
+		
+		Label progTitlebar = new Label("GusList");
+		progTitlebar.addStyleName("appTitleBar");
+		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		flowPanel.add(progTitlebar);
+		
+		// Title TextBox
+		HorizontalPanel titlePanel = new HorizontalPanel();
+		Label titleLabel = new Label(post.getTitle());
+		titleLabel.addStyleName("postTitle");
+		titlePanel.add(titleLabel);
+		flowPanel.add(titlePanel);
+
+		
+		// Name TextBox
+		HorizontalPanel namePanel = new HorizontalPanel();
+		Label nameLabel = new Label("Sold by: " + post.getSeller());
+		nameLabel.addStyleName("postBody");
+		namePanel.add(nameLabel);
+		flowPanel.add(namePanel);
+				
+		// Description TextArea
+		HorizontalPanel descriptionPanel = new HorizontalPanel();
+		Label descriptionLabel = new Label("About: " + post.getDescription());
+		descriptionLabel.addStyleName("postBody");
+		descriptionPanel.add(descriptionLabel);
+		flowPanel.add(descriptionPanel);
+				
+		// Price TextBox
+		HorizontalPanel pricePanel = new HorizontalPanel();
+		Label priceLabel = new Label("Going For: $" + post.getPrice());
+		priceLabel.addStyleName("postBody");
+		pricePanel.add(priceLabel);
+		flowPanel.add(pricePanel);
+				
+		// Edit Post Button
+		Button editPostButton = new Button("Edit Ad");
+		editPostButton.setStyleName("sideBarButton");
+		editPostButton.setText("Edit Ad");
+				
+		// Edit Post Click Handler
+		editPostButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				viewEditPostAdForm(post);
+			}
+		});
+		
+		// Delete Post Button
+		Button deletePostButton = new Button("Delete Ad");
+		deletePostButton.setStyleName("sideBarButton");
+		deletePostButton.setText("Delete Ad");
+						
+		// Delete Post Click Handler
+		deletePostButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				control.handleDeleteRequest(post);
+			}
+		});
+		
+		flowPanel.add(editPostButton);
+		flowPanel.add(deletePostButton);
+	}
+	
+	public void viewEditPostAdForm(PostData post) {
+		RootPanel rootPanel = RootPanel.get();
+		rootPanel.clear();
+		makeMenuBar(rootPanel);
+		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		rootPanel.add(horizontalPanel, 10, 79);
+		
+		makeSideBar(horizontalPanel);
+		
+		VerticalPanel dataListPanel = new VerticalPanel();
+		horizontalPanel.add(dataListPanel);
+		
+		FlowPanel flowPanel = new FlowPanel();
+		dataListPanel.add(flowPanel);
+		
+		Label progTitlebar = new Label("GusList");
+		progTitlebar.addStyleName("appTitleBar");
+		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		flowPanel.add(progTitlebar);
+		
+		createEditPostAdForm(post, flowPanel);
+	}
+	private void createEditPostAdForm(final PostData post, FlowPanel flowPanel) {
+		
+		// Name TextBox
+		HorizontalPanel namePanel = new HorizontalPanel();
+		Label nameLabel = new Label("Name (First Last)");
+		nameLabel.addStyleName("postLabel");
+		namePanel.add(nameLabel);
+		flowPanel.add(namePanel);
+		final TextBox nameTextBox = new TextBox();
+		nameTextBox.setText(post.getSeller());
+		flowPanel.add(nameTextBox);
+		
+		// Title TextBox
+		HorizontalPanel titlePanel = new HorizontalPanel();
+		Label titleLabel = new Label("Title of Your Post (e.g. car, bike, etc)");
+		titleLabel.addStyleName("postLabel");
+		titlePanel.add(titleLabel);
+		flowPanel.add(titlePanel);
+		final TextBox titleTextBox = new TextBox();
+		titleTextBox.setText(post.getTitle());
+		flowPanel.add(titleTextBox);
+		
+		// Description TextArea
+		HorizontalPanel descriptionPanel = new HorizontalPanel();
+		Label descriptionLabel = new Label("Item Description");
+		descriptionLabel.addStyleName("postLabel");
+		descriptionPanel.add(descriptionLabel);
+		flowPanel.add(descriptionPanel);
+		final TextArea descriptionTextArea = new TextArea();
+		descriptionTextArea.setText(post.getDescription());
+		flowPanel.add(descriptionTextArea);
+		
+		// Price TextBox
+		HorizontalPanel pricePanel = new HorizontalPanel();
+		Label priceLabel = new Label("Price ($)");
+		priceLabel.addStyleName("postLabel");
+		pricePanel.add(priceLabel);
+		flowPanel.add(pricePanel);
+		final TextBox priceTextBox = new TextBox();
+		priceTextBox.setText("" + post.getPrice());
+		flowPanel.add(priceTextBox);
+		
+		// Save Changes Button
+		Button saveChangesButton = new Button("Save Changes to Ad");
+		saveChangesButton.setStyleName("sideBarButton");
+		saveChangesButton.setText("Save Changes to Ad");
+		
+		// Save Changes Button Click Handler
+		saveChangesButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				String name = nameTextBox.getText();
+				String title = titleTextBox.getText();
+				String descr = descriptionTextArea.getText();
+				double price = Double.parseDouble(priceTextBox.getText());
+				// Validate entries
+				if(name.length()>0 && title.length()>0 && price >=0.0){
+					PostData newPost = new PostData(title,descr,price,
+							name);
+					control.handleChangePost(post, newPost);
+				}
+				else {
+					Window.alert("Post must have every field filled");
+				}
+			}
+	      });
+		flowPanel.add(saveChangesButton);
 	}
 
 	public void makeMenuBar(RootPanel rp){
@@ -233,7 +419,6 @@ public class GusListView {
 		Button postAdButton = new Button("Post Ad");
 		postAdButton.setStyleName("sideBarButton");
 		postAdButton.setText("Post Ad");
-		//add a clickListener to the button
 		postAdButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -245,7 +430,6 @@ public class GusListView {
 		Button viewAdsButton = new Button("View Ads");
 		viewAdsButton.setStyleName("sideBarButton");
 		viewAdsButton.setText("View Ads");
-		//add a clickListener to the button
 		viewAdsButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -299,5 +483,13 @@ public class GusListView {
 	
 	public void sendSuccessfulPostmessage() {
 		Window.alert("Post was successfully stored.");
+	}
+	
+	public void sendSuccessfulChangemessage() {
+		Window.alert("Post was successfully changed.");
+	}
+	
+	public void sendSuccessfulDeletePostMessage() {
+		Window.alert("Post was successfully deleted.");
 	}
 }

@@ -2,6 +2,7 @@ package edu.gac.mcs270.hvidsten.guslistjdo.client;
 
 import java.util.List;
 
+import edu.gac.mcs270.hvidsten.guslistjdo.server.GusListModel;
 import edu.gac.mcs270.hvidsten.guslistjdo.shared.PostData;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -46,6 +47,23 @@ public class GusList implements EntryPoint {
 				});
 	}
 
+	public void handleDeleteRequest(PostData post) {
+		submitPostService.deletePostFromServer(post,
+				new AsyncCallback<String>() {
+					public void onFailure(Throwable caught) {
+						return;
+					}
+
+					@Override
+					public void onSuccess(String result) {
+						glView.sendSuccessfulDeletePostMessage();
+						viewAdDataFromServer();
+					}
+				});
+	}
+	
+	
+	
 	public void handlePostSubmit(PostData post) {
 		submitPostService.submitPostToServer(post, 
 				new AsyncCallback<String>() {
@@ -56,12 +74,38 @@ public class GusList implements EntryPoint {
 			@Override
 			public void onSuccess(String result) {
 				glView.sendSuccessfulPostmessage();
+				viewAdDataFromServer();
 			}
 		});
 		
 	}
 
 	public void handleTitleSearchRequest(String title) {
-		// Need to implement servlet communication
+		postDataService.getSearchedPostDataFromServer(title, 
+				new AsyncCallback<List<PostData>>() {
+					public void onFailure(Throwable caught) {
+						return;
+					}
+
+					@Override
+					public void onSuccess(List<PostData> searchedData) {
+						glView.viewPostData(searchedData);
+					}
+				});;
+	}
+
+
+	public void handleChangePost(PostData oldPost, PostData newPost) {
+		submitPostService.changePostToServer(oldPost.getPostId(), newPost,
+				new AsyncCallback<String>() {
+			public void onFailure(Throwable caught) {
+				return;
+			}
+			@Override
+			public void onSuccess(String result) {
+				glView.sendSuccessfulChangemessage();
+				viewAdDataFromServer();
+			}
+		});
 	}
 }

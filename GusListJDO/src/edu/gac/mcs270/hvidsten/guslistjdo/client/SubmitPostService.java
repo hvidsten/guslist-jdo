@@ -6,8 +6,12 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import edu.gac.mcs270.hvidsten.guslistjdo.shared.PostData;
 
-
 @RemoteServiceRelativePath("submitpost") 
 public interface SubmitPostService extends RemoteService {
 	public String submitPostToServer(PostData post);
+	
+	public String changePostToServer(long postId, PostData newPost);
+
+	public String deletePostFromServer(PostData post);
 }
+
