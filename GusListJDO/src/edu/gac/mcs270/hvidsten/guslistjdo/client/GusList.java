@@ -72,5 +72,20 @@ public class GusList implements EntryPoint {
 						glView.viewPostData(searchResults);
 					}
 		});
+		
+	}
+	public void handleDeleteRequest(PostData post){
+		submitPostService.deletePostFromServer(post,
+				new AsyncCallback<String>() {
+					public void onFailure(Throwable caught) {
+						return;
+					}
+					
+					public void onSuccess(String result) {
+						glView.sendSuccessfulDeleteMessage();
+					}
+		});
+		
+	
 	}
 }

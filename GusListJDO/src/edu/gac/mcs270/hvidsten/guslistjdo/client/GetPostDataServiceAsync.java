@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import edu.gac.mcs270.hvidsten.guslistjdo.server.GusListModel;
 import edu.gac.mcs270.hvidsten.guslistjdo.shared.PostData;
 
 /**
