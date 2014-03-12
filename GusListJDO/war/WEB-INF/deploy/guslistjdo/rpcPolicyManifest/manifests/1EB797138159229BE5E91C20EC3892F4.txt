@@ -1,0 +1,2 @@
+serviceClass: edu.gac.mcs270.hvidsten.guslistjdo.client.SubmitPostService
+path: F16177140AE41D485199D09D4D0BFEB3.gwt.rpc
