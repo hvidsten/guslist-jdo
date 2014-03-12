@@ -16,16 +16,4 @@ public class GetPostDataServiceImpl extends RemoteServiceServlet implements
 	public List<PostData> getPostDataFromServer(String search) { 
 		return GusListModel.getSearchData(search);
 	}
-
-	@Override
-	public List<PostData> getPostDataFromServer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<PostData> getSearchDataFromServer(String search) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
