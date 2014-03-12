@@ -30,4 +30,14 @@ public class GusListModel {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.makePersistent(post);
 	}
+	public static List<PostData> getSearchData(String search) {
+		List<PostData> posts = getPostData();
+		List<PostData> searching = new ArrayList();
+		for (PostData post : posts){
+			if(post.getTitle().endsWith(search)){
+				searching.add(post);
+			}
+		}
+		return new ArrayList<PostData>(searching);
+	}
 }
