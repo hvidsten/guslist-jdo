@@ -2,6 +2,7 @@ package edu.gac.mcs270.hvidsten.guslistjdo.client;
 
 import java.util.List;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -14,4 +15,5 @@ import edu.gac.mcs270.hvidsten.guslistjdo.shared.PostData;
 @RemoteServiceRelativePath("postdata") 
 public interface GetPostDataService extends RemoteService {
 	public List<PostData> getPostDataFromServer();
-}
+	public List<PostData> getSearchDataFromServer(String search);
+	}
