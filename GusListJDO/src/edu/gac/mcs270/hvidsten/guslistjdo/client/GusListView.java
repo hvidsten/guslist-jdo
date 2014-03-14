@@ -7,6 +7,9 @@ package edu.gac.mcs270.hvidsten.guslistjdo.client;
 
 import java.util.List;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -26,6 +29,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import edu.gac.mcs270.hvidsten.guslistjdo.server.PMF;
 import edu.gac.mcs270.hvidsten.guslistjdo.shared.PostData;
 import edu.gac.mcs270.hvidsten.guslistjdo.shared.Seller;
 
@@ -146,7 +150,7 @@ public class GusListView {
 				if(name.length()>0 && title.length()>0 && price >=0.0){
 					PostData post = new PostData(title,descr,price,
 							new Seller(name), null);
-					control.handlePostSubmit(post);
+					control.handlePostSubmit(post); 
 				}
 				else {
 					// Should send error message to user
@@ -162,7 +166,7 @@ public class GusListView {
 		}
 	}
 
-	private HorizontalPanel makePostRow(PostData post) {
+	private HorizontalPanel makePostRow(final PostData post) {
 		HorizontalPanel row = new HorizontalPanel();
 		Label titleLabel = new Label(post.getTitle());
 		titleLabel.addStyleName("postLabel");
@@ -180,10 +184,22 @@ public class GusListView {
 				// To Do
 			}
 	      });
+		Button delete = new Button("Delete");
+		delete.addStyleName("Delete");
+		delete.setText("Delete");
+		
+		//add a clickListener to the button
+		delete.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				control.handleDeleteRequest(post);
+			}
+		});
 		row.add(titleLabel);
 		row.add(descrLabel);
 		row.add(priceLabel);
 		row.add(infoButton);
+		row.add(delete);
 		return row;
 	}
 
@@ -299,5 +315,9 @@ public class GusListView {
 	
 	public void sendSuccessfulPostmessage() {
 		Window.alert("Post was successfully stored.");
+	}
+	
+	public void sendSuccessfulDeleteMessage() {
+		Window.alert("Post was successfully deleted.");
 	}
 }

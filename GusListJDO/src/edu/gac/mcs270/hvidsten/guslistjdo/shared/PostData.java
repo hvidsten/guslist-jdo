@@ -63,5 +63,9 @@ public class PostData implements Serializable {
 				"\n description = "+description +
 				"\n price = "+ price;
 	}
+	
+	public long getPostID() {
+		return id;
+	}
 }
 

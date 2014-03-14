@@ -15,4 +15,8 @@ public class SubmitPostServiceImpl extends
 		return "post submitted okay";
 	}
 
+	public String deletePostFromServer(PostData post) {
+		GusListModel.deletePost(post);
+		return "post deleted";
+	} 
 }
