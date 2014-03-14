@@ -8,16 +8,19 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 @PersistenceCapable(identityType=IdentityType.APPLICATION)
 public class PostData implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5539539987489885476L;
+
 	@PrimaryKey
 	@Persistent(valueStrategy=IdGeneratorStrategy.IDENTITY)
 	private Long id;
 	
 	@Persistent
-	private String title="no title";
+	public String title="no title";
 	@Persistent
 	private String description="empty";
 	@Persistent
@@ -30,7 +33,7 @@ public class PostData implements Serializable {
 	// GWT serializable Objects need a no=argument constructor
 	public PostData() {}
 	
-	public PostData(String t, String d, double p, Seller s, Buyer b){
+	public PostData(String t, String d, double p, Seller s, Buyer b) {
 		title = t;
 		description = d;
 		price = p;
@@ -38,7 +41,11 @@ public class PostData implements Serializable {
 		buyer = b;
 	}
 
-	public String getTitle() {
+	public long getId() {
+		return id;
+	}
+	
+	public String getTitle(){
 		return title;
 	}
 	
