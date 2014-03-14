@@ -14,5 +14,6 @@ import edu.gac.mcs270.hvidsten.guslistjdo.shared.PostData;
 @RemoteServiceRelativePath("postdata") 
 public interface GetPostDataService extends RemoteService {
 	public List<PostData> getPostDataFromServer();
+	public List<PostData> getSearchDataFromServer(String SearchTerm);
 
 }

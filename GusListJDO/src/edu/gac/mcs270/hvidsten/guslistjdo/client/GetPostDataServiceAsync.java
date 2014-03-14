@@ -11,6 +11,6 @@ import edu.gac.mcs270.hvidsten.guslistjdo.shared.PostData;
  */
 public interface GetPostDataServiceAsync {
 	public void getPostDataFromServer(AsyncCallback<List<PostData>> asyncCallback);
-
+	public void getSearchDataFromServer(String SearchTerm, AsyncCallback<List<PostData>> asyncCallback);
 }
 

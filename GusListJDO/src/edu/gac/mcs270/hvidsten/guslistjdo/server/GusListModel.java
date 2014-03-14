@@ -30,6 +30,14 @@ public class GusListModel {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.makePersistent(post);
 	}
+	public static List<PostData> searchForPost(String SearchTerm){
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Query query = pm.newQuery(PostData.class);
+		query.setFilter("this.title == SearchTerm");
+		query.declareParameters("String SearchTerm");
+		List<PostData> matchedPosts = (List<PostData>) query.execute(SearchTerm);
+		return new ArrayList<PostData>(matchedPosts);
+	}
 	
 	public static void deletePost(PostData post) {
 		PersistenceManager pm = pmf.getPersistenceManager();
