@@ -23,11 +23,31 @@ public class GusListModel {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Query query = pm.newQuery(PostData.class);
 		List<PostData> posts = (List<PostData>) query.execute();
+		// Child classes are loaded "lazily" - not until they are accessed.
+		// To make sure they are loaded before the PersistenceManager closes,
+		// we reference them here so they are forced to load.  
+		for(PostData post: posts){
+			post.getSeller();
+			post.getBuyer();
+		}
 		return new ArrayList<PostData>(posts);
 	}
 
 	public static void storePost(PostData post) {
 		PersistenceManager pm = pmf.getPersistenceManager();
-		pm.makePersistent(post);
+		// Transactions lock all records in a datastore and keep them locked 
+		//  until they are ready to commit their changes. This eliminates
+		//  possibility of conflict of access
+		try {
+			pm.currentTransaction().begin();
+			pm.makePersistent(post);
+			pm.currentTransaction().commit();
+		}
+		finally {
+		    if (pm.currentTransaction().isActive())
+		      pm.currentTransaction().rollback();
+		    if (!pm.isClosed())
+		      pm.close();
+		   }
 	}
 }
