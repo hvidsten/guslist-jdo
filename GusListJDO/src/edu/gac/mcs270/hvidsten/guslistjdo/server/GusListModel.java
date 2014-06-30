@@ -10,6 +10,7 @@ package edu.gac.mcs270.hvidsten.guslistjdo.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
@@ -49,5 +50,10 @@ public class GusListModel {
 		    if (!pm.isClosed())
 		      pm.close();
 		   }
+	}
+	
+	public static void deletePost(PostData post) {
+		PersistenceManager pm = JDOHelper.getPersistenceManager(post);
+		pm.deletePersistent(post);
 	}
 }
