@@ -162,7 +162,7 @@ public class GusListView {
 		}
 	}
 
-	private HorizontalPanel makePostRow(PostData post) {
+	private HorizontalPanel makePostRow(final PostData post) {
 		HorizontalPanel row = new HorizontalPanel();
 		Label titleLabel = new Label(post.getTitle());
 		titleLabel.addStyleName("postLabel");
@@ -180,10 +180,23 @@ public class GusListView {
 				// To Do
 			}
 	      });
+		
+		Button deleteButton = new Button("Delete Post");
+		deleteButton.addStyleName("deletePostButton");
+		deleteButton.setText("Delete Post");
+	
+		deleteButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event){
+				control.handleDeleteRequest(post);
+			}
+		});
+		
+		
 		row.add(titleLabel);
 		row.add(descrLabel);
 		row.add(priceLabel);
 		row.add(infoButton);
+		row.add(deleteButton);
 		return row;
 	}
 
@@ -299,5 +312,9 @@ public class GusListView {
 	
 	public void sendSuccessfulPostmessage() {
 		Window.alert("Post was successfully stored.");
+	}
+	
+	public void sendSuccessfulDeleteMessage() {
+		Window.alert("Post was successfully deleted.");
 	}
 }

@@ -48,6 +48,8 @@ public class PostData implements Serializable {
 		price = p;
 		seller = s;
 		buyer = b;
+		
+		
 	}
 
 	public String getTitle() {
@@ -68,6 +70,10 @@ public class PostData implements Serializable {
 	
 	public Buyer getBuyer() {
 		return buyer;
+	}
+	
+	public long getPostID() {
+		return id;
 	}
 	
 	public String toString() {

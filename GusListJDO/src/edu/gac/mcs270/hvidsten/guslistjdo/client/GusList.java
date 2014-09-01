@@ -62,6 +62,30 @@ public class GusList implements EntryPoint {
 	}
 
 	public void handleTitleSearchRequest(String title) {
-		// Need to implement servlet communication
+		postDataService.getSearchDataFromServer(title,
+				new AsyncCallback<List<PostData>>() {
+					public void onFailure(Throwable caught) {
+						return;
+					}
+					
+					public void onSuccess(List<PostData> searchResults) {
+						glView.viewPostData(searchResults);
+					}
+		});
+		
+	}
+	public void handleDeleteRequest(PostData post){
+		submitPostService.deletePostFromServer(post,
+				new AsyncCallback<String>() {
+					public void onFailure(Throwable caught) {
+						return;
+					}
+					
+					public void onSuccess(String result) {
+						glView.sendSuccessfulDeleteMessage();
+					}
+		});
+		
+	
 	}
 }
